@@ -14,7 +14,7 @@ services:
       - /opt/monitor-stack/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - /opt/monitor-stack/grafana/dashboards:/etc/grafana/dashboards
     ports:
-      - "3000:3000"
+      - "13000:3000"
     links:
       - prometheus
   node-exporter:
@@ -24,13 +24,14 @@ services:
     ports:
       - "9100:9100"
   cadvisor:
-    image: google/cadvisor:latest
+    image: zcube/cadvisor:latest
     container_name: monitoring_cadvisor
     restart: unless-stopped
     volumes:
       - /:/rootfs:ro
-      - /var/run:/var/run:rw
+      - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
     ports:
-      - "8080:8080"
+      - "18080:8080"
